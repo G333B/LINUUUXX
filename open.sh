@@ -24,7 +24,6 @@ fi
 
 
 #verfi montage
-# si le point de montage existe déjà, on le démonte
 if mountpoint -q "$MOUNT_POINT"; then
     echo ">> Point de montage '$MOUNT_POINT' déjà monté. Démontage..."
     sudo umount "$MOUNT_POINT" || { echo ">> Échec du démontage de '$MOUNT_POINT'. Environnement peut être occupé."; exit 1; }

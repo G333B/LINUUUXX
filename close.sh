@@ -16,16 +16,16 @@ else
     echo ">> Le point de montage $MOUNT_POINT n'est pas monté."
 fi
 
-# Vérification si le mapper cryptographique est actif
+# Vérification si le mapper est actif
 if sudo cryptsetup status "$MAPPER_NAME" | grep -q "active"; then
-    echo ">> Fermeture du mapper cryptographique $MAPPER_NAME..."
+    echo ">> Fermeture du mapper $MAPPER_NAME..."
     sudo cryptsetup close "$MAPPER_NAME"
     if [ $? -ne 0 ]; then
-        echo "Erreur : Échec de la fermeture du mapper cryptographique $MAPPER_NAME."
+        echo "Erreur : Échec de la fermeture du mapper $MAPPER_NAME."
         exit 1
     fi
 else
-    echo ">> Le mapper cryptographique $MAPPER_NAME n'est pas actif."
+    echo ">> Le mapper $MAPPER_NAME n'est pas actif."
 fi
 
 # Suppression du répertoire de montage

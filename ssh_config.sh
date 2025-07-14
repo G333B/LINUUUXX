@@ -12,7 +12,7 @@ sudo chattr -a "$ENV_FILE"
 sudo chattr -a "$MOUNT_POINT"
 
 
-# Fonction pour créer un fichier de configuration SSH template
+# créer un fichier de configuration SSH template
 create_ssh_template() {
     echo ">> Création du fichier de configuration SSH template..."
     sudo mkdir -p "$COFFRE_DIR"
@@ -29,7 +29,7 @@ EOF
     echo ">> Permissions ajoutées"
 }
 
-# Fonction pour préconfigurer un fichier d'alias
+# préconfigurer un fichier d'alias
 create_alias() {
     echo ">> Préconfiguration du fichier d'alias..."
     echo "alias evsh='ssh -F $COFFRE_DIR/ssh_config_template'" | sudo tee "$COFFRE_DIR/alias_coffre" > /dev/null
@@ -38,7 +38,7 @@ create_alias() {
      echo ">> Lien symbolique créé : ~/.bash_aliases -> $ALIAS_FILE"
 }
 
-# Fonction pour importer des configurations et des clés SSH existantes
+# importer des configurations et des clés SSH
 import_ssh_config() {
     echo ">> Importation des configurations SSH existantes..."
     if [ -f "$HOME/.ssh/config" ]; then
@@ -51,11 +51,11 @@ import_ssh_config() {
         awk "/^Host $host/,/^Host /" "$HOME/.ssh/config" | sed '$d' > "$COFFRE_DIR/$host_config"
         echo ">> Configuration importée pour l'hôte $host : $COFFRE_DIR/$host_config"
 
-        # Modification de la ligne IdentityFile pour pointer vers le coffre
+        #IdentityFile
         sed -i "s|IdentityFile .*|IdentityFile $COFFRE_DIR/$host_key|" "$COFFRE_DIR/$host_config"
         echo ">> Ligne IdentityFile modifiée pour pointer vers le coffre."
 
-        # Copie des clés SSH associées
+        # Copie des clés SSH 
         cp "$HOME/.ssh/$host_key" "$COFFRE_DIR/$host_key"
         cp "$HOME/.ssh/$host_key.pub" "$COFFRE_DIR/$host_key.pub"
         echo ">> Paires de clés SSH copiées dans le coffre."
@@ -65,13 +65,7 @@ import_ssh_config() {
     fi
 }
 
-# Fonction pour configurer les permissions des fichiers
-set_permissions() {
-    echo ">> Configuration des permissions des fichiers..."
-    chmod 600 "$COFFRE_DIR"/*
-    chmod 700 "$COFFRE_DIR"
-    echo ">> Permissions configurées pour les fichiers dans le coffre."
-}
+
 
 # Menu principal
 echo "----------------------------------------"

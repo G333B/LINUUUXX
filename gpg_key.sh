@@ -29,7 +29,7 @@ EOF
     echo ">> Paire de clés GPG créée avec succès."
 }
 
-# Fonction pour exporter les clés publiques et privées dans l'environnement sécurisé
+#  exporter  clés publiques et privées dans envsécurisé
 export_gpg_keys() {
     echo ">> Exportation des clés GPG dans l'environnement sécurisé..."
     gpg --armor --export "$USER_EMAIL" | sudo tee "$MOUNT_POINT/.public_key.asc" > /dev/null
@@ -47,9 +47,9 @@ export_gpg_keys() {
     echo ">> Clé privée exportée vers $MOUNT_POINT/.private_key.asc."
 }
 
-# Fonction pour importer des clés GPG depuis l'environnement sécurisé
+#  importer d clés GPG depuis l'env
 import_gpg_keys() {
-    echo ">> Importation des clés GPG depuis l'environnement sécurisé..."
+    echo ">> Importation des clés GPG depuis l'environnement..."
     if [ -f "$MOUNT_POINT/.public_key.asc" ] && [ -f "$MOUNT_POINT/.private_key.asc" ]; then
         gpg --import "$MOUNT_POINT/.public_key.asc"
         gpg --import "$MOUNT_POINT/.private_key.asc"
@@ -57,15 +57,15 @@ import_gpg_keys() {
             echo "Erreur : Échec de l'importation des clés GPG."
             exit 1
         fi
-        echo ">> Clés GPG importées avec succès depuis l'environnement sécurisé."
+        echo ">> Clés GPG importées avec succès depuis l'environnement "
     else
-        echo "Erreur : Les fichiers de clés GPG n'existent pas dans l'environnement sécurisé."
+        echo "Erreur : Les fichiers de clés GPG n'existent pas dans l'environnement."
         exit 1
     fi
 }
 
 # Menu principal
-echo "Que souhaitez-vous faire ?"
+echo ">> Menu de configuration GPG :"
 echo "1. Créer une paire de clés GPG"
 echo "2. Exporter les clés GPG dans l'environnement sécurisé"
 echo "3. Importer les clés GPG depuis l'environnement sécurisé"
